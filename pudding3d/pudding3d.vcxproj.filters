@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\Application">
+      <UniqueIdentifier>{6d121561-e0a6-4880-a628-9252ff6152f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Lib">
+      <UniqueIdentifier>{c720230d-d767-4e70-9fd0-f049e064c24f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Lib\Renderer">
+      <UniqueIdentifier>{979aff85-0391-4c22-831f-e17c90bd0af0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Lib\Renderer\Rasterizer">
+      <UniqueIdentifier>{c14b0b43-a9d7-4a02-98ce-dc824baa3308}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Lib\Renderer\Rasterizer\Wireframe">
+      <UniqueIdentifier>{430b8b6a-cd10-4235-a0ab-4050bf67f158}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Lib\Manager">
+      <UniqueIdentifier>{88bfa6d7-b91c-485d-a31d-e7541bf7f919}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Lib\Math">
+      <UniqueIdentifier>{50c0f8a1-46f9-4dbd-8985-83cb4d1583fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Lib\Math\Matrix">
+      <UniqueIdentifier>{ea0b0026-9f68-43d8-8eeb-ddf265e88dad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Lib\Math\Vector">
+      <UniqueIdentifier>{d4dee4f8-a43b-435e-8eb8-2c2e8391c581}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Lib\Math\Vertex">
+      <UniqueIdentifier>{e3516bad-c25f-4abe-b745-4744a657e012}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Lib\Math\Triangle">
+      <UniqueIdentifier>{d7e16543-fa82-4ddb-83cc-91ba5a8ed687}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Lib\Math\Color">
+      <UniqueIdentifier>{0bf16037-f91e-4f40-8a5b-a798ae5ed8e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Lib\SceneObject">
+      <UniqueIdentifier>{05ba115e-613f-4c47-99e4-46af51569944}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Lib\SceneObject\Mesh">
+      <UniqueIdentifier>{b35186bb-6552-41bc-8f34-9bbaf835f098}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Lib\Platform">
+      <UniqueIdentifier>{4b10d5f0-76b5-40b2-a644-918a5df05731}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Lib\Manager\RenderManager">
+      <UniqueIdentifier>{9a66679a-447d-4615-b527-ab52dbf1e351}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Lib\Controller">
+      <UniqueIdentifier>{8160e2bd-5b64-4bc7-bb04-dd272947b230}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Lib\Controller\Camera">
+      <UniqueIdentifier>{570d3741-b6ce-4b44-8cd1-d4d48b186d52}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Application.h">
+      <Filter>소스 파일\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="util.h">
+      <Filter>소스 파일\Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>소스 파일\Lib\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="WireframeTriangleRasterizer.h">
+      <Filter>소스 파일\Lib\Renderer\Rasterizer\Wireframe</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderList.h">
+      <Filter>소스 파일\Lib\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix.h">
+      <Filter>소스 파일\Lib\Math\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix2.h">
+      <Filter>소스 파일\Lib\Math\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix3.h">
+      <Filter>소스 파일\Lib\Math\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix4.h">
+      <Filter>소스 파일\Lib\Math\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="vector.h">
+      <Filter>소스 파일\Lib\Math\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>소스 파일\Lib\Math\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3.h">
+      <Filter>소스 파일\Lib\Math\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector4.h">
+      <Filter>소스 파일\Lib\Math\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex.h">
+      <Filter>소스 파일\Lib\Math\Vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="Triangle.h">
+      <Filter>소스 파일\Lib\Math\Triangle</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>소스 파일\Lib\Math\Color</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>소스 파일\Lib\SceneObject\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="TriangleRasterizer.h">
+      <Filter>소스 파일\Lib\Renderer\Rasterizer</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewport.h">
+      <Filter>소스 파일\Lib\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>소스 파일\Lib\Manager\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller.h">
+      <Filter>소스 파일\Lib\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>소스 파일\Lib\Controller\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameBuffer.h">
+      <Filter>소스 파일\Lib\Renderer\Rasterizer</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Application.cpp">
+      <Filter>소스 파일\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>소스 파일\Lib\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="WireframeTriangleRasterizer.cpp">
+      <Filter>소스 파일\Lib\Renderer\Rasterizer\Wireframe</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderList.cpp">
+      <Filter>소스 파일\Lib\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix2.cpp">
+      <Filter>소스 파일\Lib\Math\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix3.cpp">
+      <Filter>소스 파일\Lib\Math\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix4.cpp">
+      <Filter>소스 파일\Lib\Math\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2.cpp">
+      <Filter>소스 파일\Lib\Math\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3.cpp">
+      <Filter>소스 파일\Lib\Math\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector4.cpp">
+      <Filter>소스 파일\Lib\Math\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex.cpp">
+      <Filter>소스 파일\Lib\Math\Vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="Triangle.cpp">
+      <Filter>소스 파일\Lib\Math\Triangle</Filter>
+    </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>소스 파일\Lib\Math\Color</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>소스 파일\Lib\SceneObject\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="TriangleRasterizer.cpp">
+      <Filter>소스 파일\Lib\Renderer\Rasterizer</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewport.cpp">
+      <Filter>소스 파일\Lib\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>소스 파일\Lib\Manager\RenderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller.cpp">
+      <Filter>소스 파일\Lib\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>소스 파일\Lib\Controller\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameBuffer.cpp">
+      <Filter>소스 파일\Lib\Renderer\Rasterizer</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
