@@ -11,7 +11,7 @@ Controller::Controller()
 	:_viewport(NULL),
 	_renderManager(NULL)
 {
-	Vector3 camPos( 7.5, 7.5, -8 );
+	Vector3 camPos( 2.5, 2.5, -5 );
 	_camera = new Camera( camPos );
 }
 

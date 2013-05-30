@@ -15,7 +15,7 @@ public:
 	~Camera();
 	
 	void ComputeWorldToCameraMat();
-	void ComputePorjectionMat(Viewport* viewport);
+	void ComputeProjectionMat(Viewport* viewport);
 	void WorldToCamera( RenderList* renderList );
 	void CameraToScreen( RenderList* renderList, Viewport* viewport );
 	void CameraToScreen( Vector4& v, Viewport* viewport );

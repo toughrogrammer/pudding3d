@@ -11,6 +11,9 @@ Camera::Camera( Vector3 pos, float fov, float nearZ, float farZ )
 	_nearZ(nearZ),
 	_farZ(farZ)
 {
+	_worldToCamera.Identity();
+	_projection.Identity();
+
 	ComputeWorldToCameraMat();
 }
 
@@ -24,6 +27,9 @@ void Camera::SetPosition( Vector3 pos )
 {
 	_pos = pos;
 	_dir.Set( pos.x, pos.y, pos.z + 1 );
+
+	_worldToCamera.Identity();
+	_projection.Identity();
 
 	ComputeWorldToCameraMat();
 }
@@ -65,7 +71,7 @@ void Camera::ComputeWorldToCameraMat()
 	_worldToCamera.a44 = 1;
 }
 
-void Camera::ComputePorjectionMat( Viewport* viewport)
+void Camera::ComputeProjectionMat( Viewport* viewport)
 {
 	int width = viewport->_width;
 	int height = viewport->_height;
@@ -87,8 +93,8 @@ void Camera::ComputePorjectionMat( Viewport* viewport)
 
 	_projection.a31 = 0;
 	_projection.a32 = 0;
-	_projection.a33 = _farZ / ( _farZ - _nearZ );
-	_projection.a34 = -( _nearZ * _farZ ) / ( _farZ - _nearZ );
+	_projection.a33 = -1 * (_farZ + _nearZ) / ( _farZ - _nearZ );
+	_projection.a34 = 2 * ( _nearZ * _farZ ) / ( _farZ - _nearZ );
 
 	_projection.a41 = 0;
 	_projection.a42 = 0;
@@ -102,18 +108,23 @@ void Camera::WorldToCamera( RenderList* renderList )
 
 	for( auto& t : triangles )
 	{
-		t.Transform( _worldToCamera );
+		t.Clipping( _pos.z + _nearZ, _pos.z + _farZ );
+		if( false == t.IsClipped() )
+			t.Transform( _worldToCamera );
 	}
 }
 
 void Camera::CameraToScreen( RenderList* renderList, Viewport* viewport )
 {
-	ComputePorjectionMat(viewport);
+	ComputeProjectionMat(viewport);
 
 	RenderList::Triangles& triangles = renderList->triangles();
 
 	for( auto& t : triangles )
 	{
+		if( true == t.IsClipped() )
+			continue;
+
 		Vector4& v1 = t.v(0).pos;
 		Vector4& v2 = t.v(1).pos;
 		Vector4& v3 = t.v(2).pos;

@@ -2,11 +2,13 @@
 #include "Triangle.h"
 
 Triangle::Triangle()
+	:_clipped(false)
 {
 
 }
 
 Triangle::Triangle( const Vertex* arr )
+	:_clipped(false)
 {
 	if( !arr )
 	{
@@ -23,6 +25,7 @@ Triangle::Triangle( const Vertex* arr )
 }
 
 Triangle::Triangle( const Triangle& t )
+	:_clipped(false)
 {
 	_vertices[0] = Vertex(t.v(0));
 	_vertices[1] = Vertex(t.v(1));
@@ -38,10 +41,10 @@ Triangle::~Triangle()
 
 void Triangle::computeNormal()
 {
-	Vector4 v0( ( _vertices[1].pos - _vertices[0].pos ).Normalize() );
-	Vector4 v1( ( _vertices[2].pos - _vertices[0].pos ).Normalize() );
+	Vector4 v1( ( _vertices[1].pos - _vertices[0].pos ).Normalize() );
+	Vector4 v2( ( _vertices[2].pos - _vertices[0].pos ).Normalize() );
 
-	_normal = cross( v0, v1 );
+	_normal = cross( v1, v2 );
 	_normal.Normalize();
 }
 
@@ -50,4 +53,19 @@ void Triangle::Transform( Matrix4 mat )
 	_vertices[0].pos *= mat;
 	_vertices[1].pos *= mat;
 	_vertices[2].pos *= mat;
+}
+
+bool Triangle::Clipping( float nearZ, float farZ )
+{
+	int i;
+	for( i=0; i<3; i++ )
+	{
+		if( _vertices[i].pos.z <= nearZ || _vertices[i].pos.z >= farZ )
+		{
+			_clipped = true;
+			break;
+		}
+	}
+
+	return _clipped;
 }

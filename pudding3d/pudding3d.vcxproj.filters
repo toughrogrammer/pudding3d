@@ -60,7 +60,7 @@
     <Filter Include="소스 파일\Lib\Controller">
       <UniqueIdentifier>{8160e2bd-5b64-4bc7-bb04-dd272947b230}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Lib\Controller\Camera">
+    <Filter Include="소스 파일\Lib\Manager\Camera">
       <UniqueIdentifier>{570d3741-b6ce-4b44-8cd1-d4d48b186d52}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -129,7 +129,7 @@
       <Filter>소스 파일\Lib\Controller</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>소스 파일\Lib\Controller\Camera</Filter>
+      <Filter>소스 파일\Lib\Manager\Camera</Filter>
     </ClInclude>
     <ClInclude Include="FrameBuffer.h">
       <Filter>소스 파일\Lib\Renderer\Rasterizer</Filter>
@@ -194,7 +194,7 @@
       <Filter>소스 파일\Lib\Controller</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>소스 파일\Lib\Controller\Camera</Filter>
+      <Filter>소스 파일\Lib\Manager\Camera</Filter>
     </ClCompile>
     <ClCompile Include="FrameBuffer.cpp">
       <Filter>소스 파일\Lib\Renderer\Rasterizer</Filter>

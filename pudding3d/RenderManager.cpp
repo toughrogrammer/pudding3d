@@ -35,7 +35,6 @@ void RenderManager::RenderFrame()
 	_renderList->triangles().clear();
 	for( auto& t : mesh->GetTriangles() )
 	{
-		//Triangle triangle(t);
 		_renderList->append( t );
 	}
 
