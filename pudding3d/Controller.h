@@ -2,6 +2,9 @@
 #ifndef _CONTROLLER_H_
 #define _CONTROLLER_H_
 
+#include "MouseEvent.h"
+#include "KeyboardEvent.h"
+
 class RenderManager;
 class Camera;
 class Viewport;
@@ -20,6 +23,7 @@ private:
 public:	
 	void CreateViewport( int width, int height );
 	void CreateRenderManager();
+	void HandleMessage( MouseEvent mouse, KeyboardEvent keyboard );
 
 	static Controller* Self() { 
 		if( !_instance )

@@ -47,41 +47,4 @@ void RenderManager::RenderFrame()
 	_renderer->Render( _renderList );
 
 	_renderer->End( _viewport );
-
-	if( GetAsyncKeyState('W') & 0x0001 )
-	{
-		Vector3 pos = _camera->GetPosition();
-		pos.Set( pos.x, pos.y + 1, pos.z );
-		_camera->SetPosition( pos );
-	}
-	else if( GetAsyncKeyState('A') & 0x0001 )
-	{
-		Vector3 pos = _camera->GetPosition();
-		pos.Set( pos.x - 1, pos.y, pos.z );
-		_camera->SetPosition( pos );
-	}
-	else if( GetAsyncKeyState('S') & 0x0001 )
-	{
-		Vector3 pos = _camera->GetPosition();
-		pos.Set( pos.x, pos.y - 1, pos.z );
-		_camera->SetPosition( pos );
-	}
-	else if( GetAsyncKeyState('D') & 0x0001 )
-	{
-		Vector3 pos = _camera->GetPosition();
-		pos.Set( pos.x + 1, pos.y, pos.z );
-		_camera->SetPosition( pos );
-	}
-	if( GetAsyncKeyState('Z') & 0x0001 )
-	{
-		Vector3 pos = _camera->GetPosition();
-		pos.Set( pos.x, pos.y, pos.z + 1 );
-		_camera->SetPosition( pos );
-	}
-	if( GetAsyncKeyState('X') & 0x0001 )
-	{
-		Vector3 pos = _camera->GetPosition();
-		pos.Set( pos.x, pos.y, pos.z - 1 );
-		_camera->SetPosition( pos );
-	}
 }

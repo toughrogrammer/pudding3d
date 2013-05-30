@@ -23,12 +23,30 @@ Application::~Application()
 //
 LRESULT CALLBACK WndProc(HWND hWnd,UINT iMessage,WPARAM wParam,LPARAM lParam)
 {
-	switch(iMessage) {
+	static MouseEvent mouse;
+	static KeyboardEvent key(0);
+	
+	switch(iMessage) 
+	{
+	case WM_LBUTTONDOWN:
+		mouse.SetCode( MOUSE_CODE::MOUSE_LEFT_DOWN );
+		break;
+	case WM_RBUTTONDOWN:
+		mouse.SetCode( MOUSE_CODE::MOUSE_RIGHT_DOWN );
+		break;
+	case WM_KEYDOWN:
+		key.SetCode( wParam );
+		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		return 0;
 	}
-	return(DefWindowProc(hWnd,iMessage,wParam,lParam));
+
+	Controller::Self()->HandleMessage( mouse, key );
+	mouse.SetCode(0);
+	key.SetCode(0);
+
+	return DefWindowProc(hWnd,iMessage,wParam,lParam);
 }
 
 void Application::Create( HINSTANCE hInstance, int nCmdShow, const char* szName, int x, int y, int width, int height )

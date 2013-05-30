@@ -63,6 +63,12 @@
     <Filter Include="소스 파일\Lib\Manager\Camera">
       <UniqueIdentifier>{570d3741-b6ce-4b44-8cd1-d4d48b186d52}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Lib\Platform\Viewport">
+      <UniqueIdentifier>{103b37ac-0be7-45d2-a188-09b8892f23b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Lib\Platform\Event">
+      <UniqueIdentifier>{9c670c47-d639-4011-a9a7-86e2f7339a3d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -119,9 +125,6 @@
     <ClInclude Include="TriangleRasterizer.h">
       <Filter>소스 파일\Lib\Renderer\Rasterizer</Filter>
     </ClInclude>
-    <ClInclude Include="Viewport.h">
-      <Filter>소스 파일\Lib\Platform</Filter>
-    </ClInclude>
     <ClInclude Include="RenderManager.h">
       <Filter>소스 파일\Lib\Manager\RenderManager</Filter>
     </ClInclude>
@@ -133,6 +136,15 @@
     </ClInclude>
     <ClInclude Include="FrameBuffer.h">
       <Filter>소스 파일\Lib\Renderer\Rasterizer</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewport.h">
+      <Filter>소스 파일\Lib\Platform\Viewport</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardEvent.h">
+      <Filter>소스 파일\Lib\Platform\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseEvent.h">
+      <Filter>소스 파일\Lib\Platform\Event</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -184,9 +196,6 @@
     <ClCompile Include="TriangleRasterizer.cpp">
       <Filter>소스 파일\Lib\Renderer\Rasterizer</Filter>
     </ClCompile>
-    <ClCompile Include="Viewport.cpp">
-      <Filter>소스 파일\Lib\Platform</Filter>
-    </ClCompile>
     <ClCompile Include="RenderManager.cpp">
       <Filter>소스 파일\Lib\Manager\RenderManager</Filter>
     </ClCompile>
@@ -198,6 +207,15 @@
     </ClCompile>
     <ClCompile Include="FrameBuffer.cpp">
       <Filter>소스 파일\Lib\Renderer\Rasterizer</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewport.cpp">
+      <Filter>소스 파일\Lib\Platform\Viewport</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyboardEvent.cpp">
+      <Filter>소스 파일\Lib\Platform\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseEvent.cpp">
+      <Filter>소스 파일\Lib\Platform\Event</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

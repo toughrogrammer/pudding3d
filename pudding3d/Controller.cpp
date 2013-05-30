@@ -44,3 +44,32 @@ void Controller::CreateRenderManager()
 	_renderManager = new RenderManager( _camera, _viewport );
 
 }
+
+void Controller::HandleMessage( MouseEvent mouse, KeyboardEvent keyboard )
+{
+	Vector3 pos = _camera->GetPosition();
+
+	switch( keyboard._code )
+	{
+	case KEY_W:
+		pos.Set( pos.x, pos.y + 1, pos.z );
+		break;
+	case KEY_S:
+		pos.Set( pos.x, pos.y - 1, pos.z );
+		break;
+	case KEY_A:
+		pos.Set( pos.x - 1, pos.y + 1, pos.z );
+		break;
+	case KEY_D:
+		pos.Set( pos.x + 1, pos.y + 1, pos.z );
+		break;
+	case KEY_Z:
+		pos.Set( pos.x, pos.y, pos.z + 1 );
+		break;
+	case KEY_X:
+		pos.Set( pos.x, pos.y, pos.z - 1 );
+		break;
+	}
+
+	_camera->SetPosition( pos );
+}

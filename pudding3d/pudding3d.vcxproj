@@ -81,11 +81,13 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="FrameBuffer.h" />
+    <ClInclude Include="KeyboardEvent.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Matrix2.h" />
     <ClInclude Include="Matrix3.h" />
     <ClInclude Include="Matrix4.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MouseEvent.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RenderList.h" />
     <ClInclude Include="RenderManager.h" />
@@ -106,11 +108,13 @@
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="FrameBuffer.cpp" />
+    <ClCompile Include="KeyboardEvent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix2.cpp" />
     <ClCompile Include="Matrix3.cpp" />
     <ClCompile Include="Matrix4.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MouseEvent.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderList.cpp" />
     <ClCompile Include="RenderManager.cpp" />
