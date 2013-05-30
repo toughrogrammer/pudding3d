@@ -9,9 +9,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="소스 파일\Application">
-      <UniqueIdentifier>{6d121561-e0a6-4880-a628-9252ff6152f9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Lib">
       <UniqueIdentifier>{c720230d-d767-4e70-9fd0-f049e064c24f}</UniqueIdentifier>
     </Filter>
@@ -69,11 +66,17 @@
     <Filter Include="소스 파일\Lib\Platform\Event">
       <UniqueIdentifier>{9c670c47-d639-4011-a9a7-86e2f7339a3d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Lib\Platform\Application">
+      <UniqueIdentifier>{6d121561-e0a6-4880-a628-9252ff6152f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Lib\Platform\Application\Win">
+      <UniqueIdentifier>{d4913e7a-2fce-46b2-9476-ada6ab24bd43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Lib\Platform\Application\Mac">
+      <UniqueIdentifier>{7911ec3e-938c-47c4-90fc-6c4c4debbb6c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Application.h">
-      <Filter>소스 파일\Application</Filter>
-    </ClInclude>
     <ClInclude Include="util.h">
       <Filter>소스 파일\Lib</Filter>
     </ClInclude>
@@ -146,11 +149,11 @@
     <ClInclude Include="MouseEvent.h">
       <Filter>소스 파일\Lib\Platform\Event</Filter>
     </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>소스 파일\Lib\Platform\Application\Win</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Application.cpp">
-      <Filter>소스 파일\Application</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -216,6 +219,9 @@
     </ClCompile>
     <ClCompile Include="MouseEvent.cpp">
       <Filter>소스 파일\Lib\Platform\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>소스 파일\Lib\Platform\Application\Win</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
