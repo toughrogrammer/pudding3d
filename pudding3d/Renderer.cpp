@@ -6,7 +6,7 @@
 #include "Viewport.h"
 
 Renderer::Renderer( int width, int height )
-	:_buffer( new FrameBuffer( width, height ) ),
+	:_buffer( new FrameBuffer( 0, 0, width, height ) ),
 	_wireRasterizer( new WireframeTriangleRasterizer )
 {
 
@@ -29,10 +29,12 @@ void Renderer::Begin()
 
 void Renderer::Render( RenderList* renderList )
 {
-	RenderList::Triangles triangles = renderList->triangles();
+	RenderList::Triangles& triangles = renderList->triangles();
 
-	for( auto t : triangles )
+	for( auto& t : triangles )
 	{
+		if( t.IsClipped() ) 
+			continue;
 		_wireRasterizer->drawTriangle( _buffer, t );
 	}
 }

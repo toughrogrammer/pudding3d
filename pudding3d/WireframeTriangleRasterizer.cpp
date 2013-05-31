@@ -20,278 +20,337 @@ void WireframeTriangleRasterizer::drawTriangle( FrameBuffer* buffer, const Trian
 	Vertex v1 = t.v(0);
 	Vertex v2 = t.v(1);
 	Vertex v3 = t.v(2);
-	
+
 	drawLine( buffer, v1, v2 );
 	drawLine( buffer, v2, v3 );
 	drawLine( buffer, v3, v1 );
 }
 
-void WireframeTriangleRasterizer::drawLine( FrameBuffer* buffer, Vertex v1, Vertex v2 )
+void WireframeTriangleRasterizer::drawLine(FrameBuffer* buffer, Vertex v1, Vertex v2 )
 {
-	Color c1, c2;
-	float x1, y1, x2, y2;
+	if( ClipLine( buffer, v1.pos, v2.pos ) )
+	{
+		Color color1 = v1.color;
+		float x1 = v1.pos.x;
+		float y1 = v1.pos.y;
+		float z1 = v1.pos.z;
 
-	c1 = v1.color;
-	x1 = v1.pos.x;
-	y1 = v1.pos.y;
+		Color color2 = v2.color;
+		float x2 = v2.pos.x;
+		float y2 = v2.pos.y;
+		float z2 = v2.pos.z;
 
-	c2 = v2.color;
-	x2 = v2.pos.x;
-	y2 = v2.pos.y;
+		float xdiff = (x2 - x1);
+		float ydiff = (y2 - y1);
 
-	drawLine( buffer, c1, x1, y1, c2, x2, y2 );
+		if(xdiff == 0.0f && ydiff == 0.0f) 
+		{
+			buffer->SetPixel( static_cast<int>(x1), static_cast<int>(y1), static_cast<int>(z1), color1 );
+			return;
+		}
 
+		if(fabs(xdiff) > fabs(ydiff)) 
+		{
+			float xmin, xmax;
+
+			// set xmin to the lower x value given
+			// and xmax to the higher value
+			if( x1 < x2 ) 
+			{
+				xmin = x1;
+				xmax = x2;
+			} 
+			else 
+			{
+				xmin = x2;
+				xmax = x1;
+			}
+
+			// draw line in terms of y slope
+			float slope = ydiff / xdiff;
+			float x, y, z;
+			Color color;
+			for( x = xmin; x <= xmax; x += 1.0f ) 
+			{
+				y = y1 + ( (x - x1) * slope );
+				z = z1 + ( (x - x1) * slope );
+				color = color1 + ( ( color2 - color1 ) * ( ( x - x1 ) / xdiff) );
+				buffer->SetPixel( static_cast<int>(x), static_cast<int>(y), static_cast<int>(z1), color );
+			}
+		}
+		else
+		{
+			float ymin, ymax;
+
+			// set ymin to the lower y value given
+			// and ymax to the higher value
+			if( y1 < y2 ) 
+			{
+				ymin = y1;
+				ymax = y2;
+			} 
+			else 
+			{
+				ymin = y2;
+				ymax = y1;
+			}
+
+			// draw line in terms of x slope
+			float slope = xdiff / ydiff;
+			float x, y, z;
+			Color color;
+			for( y = ymin; y <= ymax; y += 1.0f ) 
+			{
+				x = x1 + ( (y - y1) * slope );
+				z = z1 + ( (y - y1) * slope );
+				color = color1 + ( ( color2 - color1 ) * ( ( y - y1 ) / ydiff) );
+				buffer->SetPixel( static_cast<int>(x), static_cast<int>(y), static_cast<int>(z2), color );
+			}
+		}
+	}
 }
 
-void WireframeTriangleRasterizer::drawLine( FrameBuffer* buffer, const Color &color1, float x1, float y1, const Color &color2, float x2, float y2 )
+bool WireframeTriangleRasterizer::ClipLine(FrameBuffer* buffer, Vector4 &p1, Vector4 &p2)
 {
-	ClipLine( buffer, x1, y1, x2, y2 );
+	// internal clipping codes
+	const int CLIP_CODE_C = 0x0000;
+	const int CLIP_CODE_N = 0x0008;
+	const int CLIP_CODE_S = 0x0004;
+	const int CLIP_CODE_E = 0x0002;
+	const int CLIP_CODE_W = 0x0001;
 
-	float xdiff = (x2 - x1);
-	float ydiff = (y2 - y1);
+	const int CLIP_CODE_NE = 0x000a;
+	const int CLIP_CODE_SE = 0x0006;
+	const int CLIP_CODE_NW = 0x0009;
+	const int CLIP_CODE_SW = 0x0005;
 
-	if(xdiff == 0.0f && ydiff == 0.0f) 
-	{
-		buffer->SetPixel( static_cast<int>(x1), static_cast<int>(y1), color1 );
-		return;
-	}
+	int xc1 = static_cast<int>(p1.x),
+		yc1 = static_cast<int>(p1.y),
+		xc2 = static_cast<int>(p2.x),
+		yc2 = static_cast<int>(p2.y);
 
-	if(fabs(xdiff) > fabs(ydiff)) 
-	{
-		float xmin, xmax;
+	int p1_code = 0, p2_code = 0;
 
-		// set xmin to the lower x value given
-		// and xmax to the higher value
-		if( x1 < x2 ) 
-		{
-			xmin = x1;
-			xmax = x2;
-		} 
-		else 
-		{
-			xmin = x2;
-			xmax = x1;
-		}
+	int width = buffer->GetWidth();
+	int height = buffer->GetHeight();
 
-		// draw line in terms of y slope
-		float slope = ydiff / xdiff;
-		float x, y;
-		Color color;
-		for( x = xmin; x <= xmax; x += 1.0f ) 
-		{
-			y = y1 + ( (x - x1) * slope );
-			color = color1 + ( ( color2 - color1 ) * ( ( x - x1 ) / xdiff) );
-			buffer->SetPixel( static_cast<int>(x), static_cast<int>(y), color );
-		}
-	}
+	// determine codes for p1 and p2
+	if (p1.y < buffer->GetOriginY())
+		p1_code |= CLIP_CODE_N;
 	else
-	{
-		float ymin, ymax;
+		if (p1.y > height)
+			p1_code |= CLIP_CODE_S;
 
-		// set ymin to the lower y value given
-		// and ymax to the higher value
-		if( y1 < y2 ) 
-		{
-			ymin = y1;
-			ymax = y2;
-		} 
-		else 
-		{
-			ymin = y2;
-			ymax = y1;
-		}
+	if (p1.x < buffer->GetOriginX())
+		p1_code |= CLIP_CODE_W;
+	else
+		if (p1.x > width)
+			p1_code |= CLIP_CODE_E;
 
-		// draw line in terms of x slope
-		float slope = xdiff / ydiff;
-		float x, y;
-		Color color;
-		for( y = ymin; y <= ymax; y += 1.0f ) 
-		{
-			x = x1 + ( (y - y1) * slope );
-			color = color1 + ( ( color2 - color1 ) * ( ( y - y1 ) / ydiff) );
-			buffer->SetPixel( static_cast<int>(x), static_cast<int>(y), color );
-		}
-	}
-}
+	if (p2.y < buffer->GetOriginY())
+		p2_code |= CLIP_CODE_N;
+	else
+		if (p2.y > height)
+			p2_code |= CLIP_CODE_S;
 
-typedef int OutCode;
-bool WireframeTriangleRasterizer::ClipLine( FrameBuffer* buffer, float& x1, float& y1, float& x2, float& y2 )
-{
-	const int INSIDE = 0; // 0000
-	const int LEFT = 1;   // 0001
-	const int RIGHT = 2;  // 0010
-	const int BOTTOM = 4; // 0100
-	const int TOP = 8;    // 1000
+	if (p2.x < buffer->GetOriginX())
+		p2_code |= CLIP_CODE_W;
+	else
+		if (p2.x > width)
+			p2_code |= CLIP_CODE_E;
 
-	float width = (float)buffer->getWidth();
-	float height = (float)buffer->getHeight();
-
-	// Outcode compute
-	OutCode r1 = 0, r2=0;
-	{
-		if( y1 < 0 )
-			r1 |= TOP;
-		if( y1 > height )
-			r1 |= BOTTOM;
-
-		if( x1 < 0 )
-			r1 |= LEFT;
-		if( x1 > width )
-			r1 |= RIGHT;
-
-		if( y2 < 0 )
-			r2 |= TOP;
-		if( y2 > height )
-			r2 |= BOTTOM;
-
-		if( x2 < 0 )
-			r2 |= LEFT;
-		if( x2 > width )
-			r2 |= RIGHT;
-
-		if( !(r1 || r2) )
-			return true;
-
-		if( r1 & r2 )
-			return false;
-	}
-
-	// Line clip
-	pdPoint pTemp1, pTemp2;
-	pTemp1.x = x1;
-	pTemp1.y = y1;
-	pTemp2.x = x2;
-	pTemp2.y = y2;
-	{
-		switch( r1 )
-		{
-		case 0:
-			break;
-		case LEFT:
-			pTemp1.x = 0;
-			pTemp1.y = y1 + ((-x1) * (y2 - y1) / (x2 - x1) + 0.5f);
-			break;
-		case RIGHT:
-			pTemp1.x = width;
-			pTemp1.y = y1 + ((pTemp1.x - x1) * (y2 - y1) / (x2 - x1) + 0.5f);
-			break;
-
-		case BOTTOM:
-			pTemp1.y = height;
-			pTemp1.x = x1 + ((pTemp1.y - y1) * (x2 - x1) / (y2 - y1) + 0.5f);
-			break;
-		case BOTTOM | LEFT:
-			pTemp1.y = height;
-			pTemp1.x = x1 + ((pTemp1.y - y1) * (x2 - x1) / (y2 - y1) + 0.5f);
-			if( pTemp1.x < 0 )
-			{
-				pTemp1.x = 0;
-				pTemp1.y = y1 + ((-x1) * (y2 - y1) / (x2 - x1) + 0.5f);
-			}
-			break;
-		case BOTTOM | RIGHT:
-			pTemp1.y = height;
-			pTemp1.x = x1 + ((pTemp1.y - y1) * (x2 - x1) / (y2 - y1) + 0.5f);
-			if( pTemp1.x > width )
-			{
-				pTemp1.x = width;
-				pTemp1.y = y1 + ((pTemp1.x - x1) * (y2 - y1) / (x2 - x1) + 0.5f);
-			}
-			break;
-
-		case TOP:
-			pTemp1.y = 0;
-			pTemp1.x = x1 + ((-y1) * (x2 - x1) / (y2 - y1) + 0.5f);
-			break;
-		case TOP | LEFT:
-			pTemp1.y = 0;
-			pTemp1.x = x1 + ((-y1) * (x2 - x1) / (y2 - y1) + 0.5f);
-			if( pTemp1.x < 0 )
-			{
-				pTemp1.x = 0;
-				pTemp1.y = y1 + ((-x1) * (y2 - y1) / (x2 - x1) + 0.5f);
-			}
-			break;
-		case TOP | RIGHT:
-			pTemp1.y = 0;
-			pTemp1.x = x1 + ((-y1) * (x2 - x1) / (y2 - y1) + 0.5f);
-			if( pTemp1.x > width )
-			{
-				pTemp1.x = width;
-				pTemp1.y = y1 + ((pTemp1.x - x1) * (y2 - y1) / (x2 - x1) + 0.5f);
-			}
-			break;
-		}
-
-		switch( r1 )
-		{
-		case 0:
-			break;
-		case LEFT:
-			pTemp2.x = 0;
-			pTemp2.y = y1 + ((-x1) * (y2 - y1) / (x2 - x1) + 0.5f);
-			break;
-		case RIGHT:
-			pTemp2.x = width;
-			pTemp2.y = y1 + ((pTemp2.x - x1) * (y2 - y1) / (x2 - x1) + 0.5f);
-			break;
-
-		case BOTTOM:
-			pTemp2.y = height;
-			pTemp2.x = x1 + ((pTemp2.y - y1) * (x2 - x1) / (y2 - y1) + 0.5f);
-			break;
-		case BOTTOM | LEFT:
-			pTemp2.y = height;
-			pTemp2.x = x1 + ((pTemp2.y - y1) * (x2 - x1) / (y2 - y1) + 0.5f);
-			if( pTemp2.x < 0 )
-			{
-				pTemp2.x = 0;
-				pTemp2.y = y1 + ((-x1) * (y2 - y1) / (x2 - x1) + 0.5f);
-			}
-			break;
-		case BOTTOM | RIGHT:
-			pTemp2.y = height;
-			pTemp2.x = x1 + ((pTemp2.y - y1) * (x2 - x1) / (y2 - y1) + 0.5f);
-			if( pTemp2.x > width )
-			{
-				pTemp2.x = width;
-				pTemp2.y = y1 + ((pTemp2.x - x1) * (y2 - y1) / (x2 - x1) + 0.5f);
-			}
-			break;
-
-		case TOP:
-			pTemp2.y = 0;
-			pTemp2.x = x1 + ((-y1) * (x2 - x1) / (y2 - y1) + 0.5f);
-			break;
-		case TOP | LEFT:
-			pTemp2.y = 0;
-			pTemp2.x = x1 + ((-y1) * (x2 - x1) / (y2 - y1) + 0.5f);
-			if( pTemp2.x < 0 )
-			{
-				pTemp2.x = 0;
-				pTemp2.y = y1 + ((-x1) * (y2 - y1) / (x2 - x1) + 0.5f);
-			}
-			break;
-		case TOP | RIGHT:
-			pTemp2.y = 0;
-			pTemp2.x = x1 + ((-y1) * (x2 - x1) / (y2 - y1) + 0.5f);
-			if( pTemp2.x > width )
-			{
-				pTemp2.x = width;
-				pTemp2.y = y1 + ((pTemp2.x - x1) * (y2 - y1) / (x2 - x1) + 0.5f);
-			}
-			break;
-		}
-	}
-	
-
-	if( (pTemp1.x < 0 || pTemp1.x >= width) && (pTemp1.y < 0 || pTemp1.y >= height) ||
-		(pTemp2.x < 0 || pTemp2.x >= width) && (pTemp2.y < 0 || pTemp2.y >= height) )
+	// try and trivially reject
+	if ((p1_code & p2_code))
 		return false;
 
-	x1 = pTemp1.x;
-	y1 = pTemp1.y;
-	x2 = pTemp2.x;
-	y2 = pTemp2.y;
+	// test for totally visible, if so leave points untouched
+	if (p1_code == 0 && p2_code == 0)
+		return true;
+
+	// determine end clip point for p1
+	switch(p1_code)
+	{
+	case CLIP_CODE_C:
+		break;
+
+	case CLIP_CODE_N:
+		yc1 = buffer->GetOriginY();
+		xc1 = p1.x + 0.5 + (buffer->GetOriginY() - p1.y) * (p2.x - p1.x) / (p2.y - p1.y);
+		break;
+
+	case CLIP_CODE_S:
+		yc1 = buffer->GetHeight();
+		xc1 = p1.x + 0.5 + (buffer->GetHeight() - p1.y) * (p2.x - p1.x) / (p2.y - p1.y);
+		break;
+
+	case CLIP_CODE_W:
+		xc1 = buffer->GetOriginX();
+		yc1 = p1.y + 0.5 + (buffer->GetOriginX() - p1.x) * (p2.y - p1.y) / (p2.x - p1.x);
+		break;
+
+	case CLIP_CODE_E:
+		xc1 = buffer->GetWidth();
+		yc1 = p1.y + 0.5 + (buffer->GetWidth() - p1.x) * (p2.y - p1.y) / (p2.x - p1.x);
+		break;
+
+		// these cases are more complex, must compute 2 intersections
+	case CLIP_CODE_NE:
+		// north hline intersection
+		yc1 = buffer->GetOriginY();
+		xc1 = p1.x + 0.5 + (buffer->GetOriginY() - p1.y) * (p2.x - p1.x) / (p2.y - p1.y);
+
+		// test if intersection is valid, of so then done, else compute next
+		if (xc1 < buffer->GetOriginX() || xc1 > buffer->GetWidth())
+		{
+			// east vline intersection
+			xc1 = buffer->GetWidth();
+			yc1 = p1.y + 0.5 + (buffer->GetWidth() - p1.x) * (p2.y - p1.y) / (p2.x - p1.x);
+		}
+		break;
+
+	case CLIP_CODE_SE:
+		// south hline intersection
+		yc1 = buffer->GetHeight();
+		xc1 = p1.x + 0.5 + (buffer->GetHeight() - p1.y) * (p2.x - p1.x) / (p2.y - p1.y);
+
+		// test if intersection is valid, of so then done, else compute next
+		if (xc1 < buffer->GetOriginX() || xc1 > buffer->GetWidth())
+		{
+			// east vline intersection
+			xc1 = buffer->GetWidth();
+			yc1 = p1.y + 0.5 + (buffer->GetWidth() - p1.x) * (p2.y - p1.y) / (p2.x - p1.x);
+		}
+		break;
+
+	case CLIP_CODE_NW:
+		// north hline intersection
+		yc1 = buffer->GetOriginY();
+		xc1 = p1.x + 0.5 + (buffer->GetOriginY() - p1.y) * (p2.x - p1.x) / (p2.y - p1.y);
+
+		// test if intersection is valid, of so then done, else compute next
+		if (xc1 < buffer->GetOriginX() || xc1 > buffer->GetWidth())
+		{
+			xc1 = buffer->GetOriginX();
+			yc1 = p1.y + 0.5 + (buffer->GetOriginX() - p1.x) * (p2.y - p1.y) / (p2.x - p1.x);
+		}
+		break;
+
+	case CLIP_CODE_SW:
+		// south hline intersection
+		yc1 = buffer->GetHeight();
+		xc1 = p1.x + 0.5 + (buffer->GetHeight() - p1.y) * (p2.x - p1.x) / (p2.y - p1.y);
+
+		// test if intersection is valid, of so then done, else compute next
+		if (xc1 < buffer->GetOriginX() || xc1 > buffer->GetWidth())
+		{
+			xc1 = buffer->GetOriginX();
+			yc1 = p1.y + 0.5 + (buffer->GetOriginX() - p1.x) * (p2.y - p1.y) / (p2.x - p1.x);
+		}
+		break;
+
+	default:
+		break;
+	}
+
+	// determine clip point for p2
+	switch(p2_code)
+	{
+	case CLIP_CODE_C:
+		break;
+
+	case CLIP_CODE_N:
+		yc2 = buffer->GetOriginY();
+		xc2 = p2.x + (buffer->GetOriginY() - p2.y) * (p1.x - p2.x) / (p1.y - p2.y);
+		break;
+
+	case CLIP_CODE_S:
+		yc2 = buffer->GetHeight();
+		xc2 = p2.x + (buffer->GetHeight() - p2.y) * (p1.x - p2.x) / (p1.y - p2.y);
+		break;
+
+	case CLIP_CODE_W:
+		xc2 = buffer->GetOriginX();
+		yc2 = p2.y + (buffer->GetOriginX() - p2.x) * (p1.y - p2.y) / (p1.x - p2.x);
+		break;
+
+	case CLIP_CODE_E:
+		xc2 = buffer->GetWidth();
+		yc2 = p2.y + (buffer->GetWidth() - p2.x) * (p1.y - p2.y) / (p1.x - p2.x);
+		break;
+
+		// these cases are more complex, must compute 2 intersections
+	case CLIP_CODE_NE:
+		// north hline intersection
+		yc2 = buffer->GetOriginY();
+		xc2 = p2.x + 0.5 + (buffer->GetOriginY() - p2.y) * (p1.x - p2.x) / (p1.y - p2.y);
+
+		// test if intersection is valid, of so then done, else compute next
+		if (xc2 < buffer->GetOriginX() || xc2 > buffer->GetWidth())
+		{
+			// east vline intersection
+			xc2 = buffer->GetWidth();
+			yc2 = p2.y + 0.5 + (buffer->GetWidth() - p2.x) * (p1.y - p2.y) / (p1.x - p2.x);
+		}
+		break;
+
+	case CLIP_CODE_SE:
+		// south hline intersection
+		yc2 = buffer->GetHeight();
+		xc2 = p2.x + 0.5 + (buffer->GetHeight() - p2.y) * (p1.x - p2.x) / (p1.y - p2.y);
+
+		// test if intersection is valid, of so then done, else compute next
+		if (xc2 < buffer->GetOriginX() || xc2 > buffer->GetWidth())
+		{
+			// east vline intersection
+			xc2 = buffer->GetWidth();
+			yc2 = p2.y + 0.5 + (buffer->GetWidth() - p2.x) * (p1.y - p2.y) / (p1.x - p2.x);
+		}
+		break;
+
+	case CLIP_CODE_NW:
+		// north hline intersection
+		yc2 = buffer->GetOriginY();
+		xc2 = p2.x + 0.5 + (buffer->GetOriginY() - p2.y) * (p1.x - p2.x) / (p1.y - p2.y);
+
+		// test if intersection is valid, of so then done, else compute next
+		if (xc2 < buffer->GetOriginX() || xc2 > buffer->GetWidth())
+		{
+			xc2 = buffer->GetOriginX();
+			yc2 = p2.y + 0.5 + (buffer->GetOriginX() - p2.x) * (p1.y - p2.y) / (p1.x - p2.x);
+		}
+		break;
+
+	case CLIP_CODE_SW:
+		// south hline intersection
+		yc2 = buffer->GetHeight();
+		xc2 = p2.x + 0.5 + (buffer->GetHeight() - p2.y) * (p1.x - p2.x) / (p1.y - p2.y);
+
+		// test if intersection is valid, of so then done, else compute next
+		if (xc2 < buffer->GetOriginX() || xc2 > buffer->GetWidth())
+		{
+			xc2 = buffer->GetOriginX();
+			yc2 = p2.y + 0.5 + (buffer->GetOriginX() - p2.x) * (p1.y - p2.y) / (p1.x - p2.x);
+		}
+		break;
+
+	default:
+		break;
+	}
+
+	// do bounds check
+	if ((xc1 < buffer->GetOriginX()) || (xc1 > buffer->GetWidth()) ||
+		(yc1 < buffer->GetOriginY()) || (yc1 > buffer->GetHeight())||
+		(xc2 < buffer->GetOriginX()) || (xc2 > buffer->GetWidth()) ||
+		(yc2 < buffer->GetOriginY()) || (yc2 > buffer->GetHeight()))
+	{
+		return false;
+	}
+
+	// store vars back
+	p1.x = xc1;
+	p1.y = yc1;
+	p2.x = xc2;
+	p2.y = yc2;
+
 	return true;
 }

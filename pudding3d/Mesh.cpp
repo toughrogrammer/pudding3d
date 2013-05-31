@@ -12,6 +12,11 @@ Mesh::Mesh()
 
 }
 
+Mesh::Mesh( char* filepath )
+{
+	create( filepath );
+}
+
 Mesh::~Mesh()
 {
 	if( vertices )

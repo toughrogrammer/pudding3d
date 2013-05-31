@@ -122,7 +122,7 @@ void Camera::CameraToScreen( RenderList* renderList, Viewport* viewport )
 
 	for( auto& t : triangles )
 	{
-		if( true == t.IsClipped() )
+		if( t.IsClipped() )
 			continue;
 
 		Vector4& v1 = t.v(0).pos;
@@ -137,7 +137,9 @@ void Camera::CameraToScreen( RenderList* renderList, Viewport* viewport )
 
 void Camera::CameraToScreen( Vector4& v, Viewport* viewport )
 {
-	//v *= _worldToCamera;
+	// back up vertex's z coordinate for zbuffer
+	float z = v.z;
+
 	v *= _projection;
 	v /= v.w;
 
@@ -149,4 +151,5 @@ void Camera::CameraToScreen( Vector4& v, Viewport* viewport )
 
 	v.x = wx;
 	v.y = wy;
+	v.z = z;
 }

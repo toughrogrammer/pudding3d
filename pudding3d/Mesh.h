@@ -17,6 +17,7 @@ private:
 
 public:
 	Mesh();
+	Mesh( char* filepath );
 	~Mesh();
 
 	void create(char* filepath);

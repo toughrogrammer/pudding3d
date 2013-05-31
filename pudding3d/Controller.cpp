@@ -11,7 +11,7 @@ Controller::Controller()
 	:_viewport(NULL),
 	_renderManager(NULL)
 {
-	Vector3 camPos( 2.5, 2.5, -5 );
+	Vector3 camPos( 7.5, 7.5, -1.40 );
 	_camera = new Camera( camPos );
 }
 
@@ -58,16 +58,16 @@ void Controller::HandleMessage( MouseEvent mouse, KeyboardEvent keyboard )
 		pos.Set( pos.x, pos.y - 1, pos.z );
 		break;
 	case KEY_A:
-		pos.Set( pos.x - 1, pos.y + 1, pos.z );
+		pos.Set( pos.x - 1, pos.y, pos.z );
 		break;
 	case KEY_D:
-		pos.Set( pos.x + 1, pos.y + 1, pos.z );
+		pos.Set( pos.x + 1, pos.y, pos.z );
 		break;
 	case KEY_Z:
-		pos.Set( pos.x, pos.y, pos.z + 1 );
+		pos.Set( pos.x, pos.y, pos.z + 0.2 );
 		break;
 	case KEY_X:
-		pos.Set( pos.x, pos.y, pos.z - 1 );
+		pos.Set( pos.x, pos.y, pos.z - 0.2 );
 		break;
 	}
 

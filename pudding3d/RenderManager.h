@@ -22,6 +22,8 @@ private:
 	RenderList* _renderList;
 
 	Mesh* mesh;
+	Mesh* plane1;
+	Mesh* plane2;
 };
 
 #endif

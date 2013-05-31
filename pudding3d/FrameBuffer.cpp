@@ -2,48 +2,59 @@
 #include "FrameBuffer.h"
 
 FrameBuffer::FrameBuffer()
-	:buffer(0)
+	:_buffer(0), _zbuffer(0)
 {
 
 }
-FrameBuffer::FrameBuffer( int w, int h )
-	:width(w), height(h)
+FrameBuffer::FrameBuffer( int x, int y, int w, int h )
+	:_x(x), _y(y), _width(w), _height(h)
 {
-	this->width = width;
-	this->height = height;
-
-	buffer = new uint32_t[ width * height ];
-
+	_buffer = new uint32_t[ _width * _height ];
+	_zbuffer = new int32_t[ _width * _height ];
 }
 
 FrameBuffer::~FrameBuffer()
 {
-	if( buffer )
-		delete[] buffer;
+	if( _buffer )
+		delete[] _buffer;
+
+	if( _zbuffer )
+		delete[] _zbuffer;
 }
 
-void FrameBuffer::Resize( int w, int h )
+void FrameBuffer::Reset( int x, int y, int w, int h )
 {
-	this->width = width;
-	this->height = height;
+	_x = x;
+	_y = y;
+	_width = w;
+	_height = h;
 
-	if( buffer )
-		delete[] buffer;
+	if( _buffer )
+		delete[] _buffer;
+	_buffer = new uint32_t[ _width * _height ];
 
-	buffer = new uint32_t[ width * height ];
+	if( _zbuffer )
+		delete[] _zbuffer;
+	_zbuffer = new int32_t[ _width * _height ];
 }
 
-void FrameBuffer::SetPixel( uint32_t x, uint32_t y, const Color& color)
+void FrameBuffer::SetPixel( uint32_t x, uint32_t y, int32_t z, const Color& color)
 {
-	if( x >= width || y >= height )
+	if( x >= _width || y >= _height )
 		return;
 
-	buffer[y * width + x] = color.ToUInt32();
+	if( z > _zbuffer[ y * _width + x ] )
+		return;
+
+	_buffer[y * _width + x] = color.ToUInt32();
+	_zbuffer[ y * _width + x ] = z;
 }
 
 void FrameBuffer::Clear()
 {
-	int i;
-	for( i=0; i<width*height; i++ )
-		buffer[i] = 0;
+	unsigned int i;
+	for( i=0; i<_width * _height; i++ )
+		_buffer[i] = 0;
+	for( i=0; i<_width * _height; i++ )
+		_zbuffer[i] = INT32_MAX;
 }

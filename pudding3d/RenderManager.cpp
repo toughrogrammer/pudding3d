@@ -14,8 +14,10 @@ RenderManager::RenderManager( Camera* camera, Viewport* viewport )
 
 	_renderList = new RenderList;
 
-	mesh = new Mesh;
-	mesh->create("resource\\mymesh.txt");
+	mesh = new Mesh("resource\\mymesh.txt");
+
+	plane1 = new Mesh("resource\\plane1.txt");
+	plane2 = new Mesh("resource\\plane2.txt");
 }
 
 RenderManager::~RenderManager()
@@ -28,12 +30,26 @@ RenderManager::~RenderManager()
 
 	if( mesh )
 		delete mesh;
+
+	if( plane1 )
+		delete plane1;
+
+	if( plane2 )
+		delete plane2;
 }
 
 void RenderManager::RenderFrame()
 {
 	_renderList->triangles().clear();
 	for( auto& t : mesh->GetTriangles() )
+	{
+		_renderList->append( t );
+	}
+	for( auto& t : plane1->GetTriangles() )
+	{
+		_renderList->append( t );
+	}
+	for( auto& t : plane2->GetTriangles() )
 	{
 		_renderList->append( t );
 	}

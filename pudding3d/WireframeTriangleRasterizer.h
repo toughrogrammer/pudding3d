@@ -17,10 +17,7 @@ public:
 
 private:
 	void drawLine( FrameBuffer* buffer, Vertex v1, Vertex v2 );
-	void drawLine( FrameBuffer* buffer,
-					const Color &color1, float x1, float y1, 
-					const Color &color2, float x2, float y2 );
-	bool ClipLine( FrameBuffer* buffer, float& x1, float& y1, float& x2, float& y2 );
+	bool ClipLine( FrameBuffer* buffer, Vector4& p1, Vector4& p2 );
 };
 
 #endif
