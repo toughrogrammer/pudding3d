@@ -7,6 +7,12 @@ class WireframeTriangleRasterizer;
 class FlatTriangleRasterizer;
 class RenderList;
 class Viewport;
+
+enum RENDER_MODE {
+	WIREFRAME = 0,
+	FLAT,
+};
+
 class Renderer
 {
 public:
@@ -18,10 +24,14 @@ public:
 	void Render( RenderList* renderList );
 	void End( Viewport* viewport );
 
+	void SetRenderMode( RENDER_MODE mode );
+
 private:
 	FrameBuffer* _buffer;
 	WireframeTriangleRasterizer* _wireRasterizer;
 	FlatTriangleRasterizer* _flatRasterizer;
+
+	RENDER_MODE _mode;
 	
 };
 

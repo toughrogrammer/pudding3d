@@ -15,6 +15,8 @@ public:
 
 	void RenderFrame();
 
+	Renderer* GetRenderer() { return _renderer; }
+
 private:
 	Renderer* _renderer;
 	Camera* _camera;

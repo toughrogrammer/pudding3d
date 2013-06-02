@@ -19,7 +19,7 @@ void FlatTriangleRasterizer::drawTriangle( FrameBuffer* buffer, const Triangle& 
 	Vertex v3 = t.v(2);
 
 	//
-	// order : v1.pos.y > v2.pos.y > v3.pos.y
+	// order : v1.pos.y < v2.pos.y < v3.pos.y
 	//
 	if( v1.pos.y > v2.pos.y )
 		Swap( v1, v2 );
@@ -28,45 +28,106 @@ void FlatTriangleRasterizer::drawTriangle( FrameBuffer* buffer, const Triangle& 
 	if( v2.pos.y > v3.pos.y )
 		Swap( v2, v3 );
 
-	// Setting v4
-	Vertex v4;
-	v4.pos.Set( 
-		( v2.pos.y - v1.pos.y ) * ( v3.pos.x - v1.pos.x ) / ( v3.pos.y - v1.pos.y ) + v1.pos.x,
-		v2.pos.y,
-		( v3.pos.z - v1.pos.z ) * ( v2.pos.y - v1.pos.y ) / ( v3.pos.y - v1.pos.y ) + v1.pos.z,
-		1 );
 
-	drawTriangle( buffer, v1, v2, v4 );
-	drawTriangle( buffer, v2, v4, v3 );
+	if (v2.pos.y == v3.pos.y)
+	{
+		drawTriangleBottomFlat( buffer, v1, v2, v3 );
+	}
+	else if (v1.pos.y == v2.pos.y)
+	{
+		drawTriangleTopFlat( buffer, v1, v2, v3 );
+	} 
+	else
+	{
+		// Setting v4
+		Vertex v4;
+		v4.pos.Set( 
+			( v2.pos.y - v1.pos.y ) * ( v3.pos.x - v1.pos.x ) / ( v3.pos.y - v1.pos.y ) + v1.pos.x,
+			v2.pos.y,
+			( v3.pos.z - v1.pos.z ) * ( v2.pos.y - v1.pos.y ) / ( v3.pos.y - v1.pos.y ) + v1.pos.z,
+			1 );
+
+		// v2 and v4 is parallel
+		// v1, v2, v4 triangle is bottom flat
+		drawTriangleBottomFlat( buffer, v1, v2, v4 );
+		// v2, v4, v3 triangle is top flat
+		drawTriangleTopFlat( buffer, v2, v4, v3 );
+	}
 
 }
 
-void FlatTriangleRasterizer::drawTriangle( FrameBuffer* buffer, const Vertex v1, const Vertex v2, const Vertex v3 )
+void FlatTriangleRasterizer::drawTriangleTopFlat( FrameBuffer* buffer, const Vertex v1, const Vertex v2, const Vertex v3 )
 {
 	Vertex a, b;
 
-	// Acute triangle
-	if( v2.pos.y == v3.pos.y )
+	// top flat
+	float invslopex1 = (v3.pos.x - v1.pos.x) / (v3.pos.y - v1.pos.y);
+	float invslopex2 = (v3.pos.x - v2.pos.x) / (v3.pos.y - v2.pos.y);
+
+	float invslopez1 = (v3.pos.z - v1.pos.z) / (v3.pos.y - v1.pos.y);
+	float invslopez2 = (v3.pos.z - v2.pos.z) / (v3.pos.y - v2.pos.y);
+
+	float x1 = v3.pos.x;
+	float x2 = v3.pos.x;
+
+	float z1 = v3.pos.z;
+	float z2 = v3.pos.z;
+
+	float scanlineY;
+	for ( scanlineY = v3.pos.y; scanlineY >= v1.pos.y; scanlineY -= 1.0f )
 	{
-		float ymin = v2.pos.y;
-		float ymax = v1.pos.y;
-		float y;
+		a.pos.x = x1;
+		a.pos.y = scanlineY;
+		a.pos.z = z1;
 
-		for( y = ymin; y <= ymax; y += 1.0f )
-		{
-			float xmax = ( y - v1.pos.y ) * ( v1.pos.x - v2.pos.x ) / ( v1.pos.y - v2.pos.y ) + v1.pos.x;
-			float xmin = ( y - v1.pos.y ) * ( v1.pos.x - v3.pos.x ) / ( v1.pos.y - v3.pos.y ) + v1.pos.x;
+		b.pos.x = x2;
+		b.pos.y = scanlineY;
+		b.pos.z = z2;
 
-			a.pos.Set( xmin, y, 0, 1 );
-			b.pos.Set( xmax, y, 0, 1 );
-			drawLine( buffer, a, b );
-		}
+		drawLine( buffer, a, b );
 
+		x1 -= invslopex1;
+		x2 -= invslopex2;
+
+		z1 -= invslopez1;
+		z2 -= invslopez2;
 	}
-	// Obtuse triangle
-	else
-	{
+}
 
+void FlatTriangleRasterizer::drawTriangleBottomFlat( FrameBuffer* buffer, const Vertex v1, const Vertex v2, const Vertex v3 )
+{
+	Vertex a, b;
+
+	float invslopex1 = (v2.pos.x - v1.pos.x) / (v2.pos.y - v1.pos.y);
+	float invslopex2 = (v3.pos.x - v1.pos.x) / (v3.pos.y - v1.pos.y);
+
+	float invslopez1 = (v2.pos.z - v1.pos.z) / (v2.pos.y - v1.pos.y);
+	float invslopez2 = (v3.pos.z - v1.pos.z) / (v3.pos.y - v1.pos.y);
+
+	float x1 = v1.pos.x;
+	float x2 = v1.pos.x;
+
+	float z1 = v1.pos.z;
+	float z2 = v1.pos.z;
+
+	float scanlineY;
+	for ( scanlineY = v1.pos.y; scanlineY <= v2.pos.y; scanlineY += 1.0f )
+	{
+		a.pos.x = x1;
+		a.pos.y = scanlineY;
+		a.pos.z = z1;
+
+		b.pos.x = x2;
+		b.pos.y = scanlineY;
+		b.pos.z = z2;
+
+		drawLine( buffer, a, b );
+
+		x1 += invslopex1;
+		x2 += invslopex2;
+
+		z1 += invslopez1;
+		z2 += invslopez2;
 	}
 }
 

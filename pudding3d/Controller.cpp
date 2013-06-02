@@ -3,6 +3,7 @@
 #include "RenderManager.h"
 #include "Camera.h"
 #include "Viewport.h"
+#include "Renderer.h"
 #include "util.h"
 
 Controller* Controller::_instance = 0;
@@ -11,7 +12,7 @@ Controller::Controller()
 	:_viewport(NULL),
 	_renderManager(NULL)
 {
-	Vector3 camPos( 7.5, 7.5, -1.40 );
+	Vector3 camPos( 7.5, 7.5, -8.0 );
 	_camera = new Camera( camPos );
 }
 
@@ -68,6 +69,13 @@ void Controller::HandleMessage( MouseEvent mouse, KeyboardEvent keyboard )
 		break;
 	case KEY_X:
 		pos.Set( pos.x, pos.y, pos.z - 0.2 );
+		break;
+
+	case KEY_1:
+		_renderManager->GetRenderer()->SetRenderMode( RENDER_MODE::WIREFRAME );
+		break;
+	case KEY_2:
+		_renderManager->GetRenderer()->SetRenderMode( RENDER_MODE::FLAT );
 		break;
 	}
 

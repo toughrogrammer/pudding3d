@@ -15,15 +15,14 @@ class TriangleRasterizer
 public:
 	TriangleRasterizer();
 	virtual ~TriangleRasterizer();
-
+	virtual void drawTriangle( FrameBuffer* buffer, const Triangle& t ) = 0;
 
 protected:
 	// TODO : make function
 	virtual void sortVertextCCW( Vertex v0, Vertex v1, Vertex v2 );
 
-
 private:
-	virtual void drawTriangle( FrameBuffer* buffer, const Triangle& t ) = 0;
+	
 
 	
 	//

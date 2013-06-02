@@ -53,6 +53,8 @@ void Application::Create( HINSTANCE hInstance, int nCmdShow, const char* szName,
 {
 	srand( time(NULL) );
 
+	AllocConsole();
+
 	WNDCLASS WndClass;
 
 	WndClass.cbClsExtra = 0;
