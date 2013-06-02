@@ -2,12 +2,14 @@
 #include "Renderer.h"
 #include "FrameBuffer.h"
 #include "WireframeTriangleRasterizer.h"
+#include "FlatTriangleRasterizer.h"
 #include "RenderList.h"
 #include "Viewport.h"
 
 Renderer::Renderer( int width, int height )
 	:_buffer( new FrameBuffer( 0, 0, width, height ) ),
-	_wireRasterizer( new WireframeTriangleRasterizer )
+	_wireRasterizer( new WireframeTriangleRasterizer ),
+	_flatRasterizer( new FlatTriangleRasterizer )
 {
 
 }
@@ -35,7 +37,8 @@ void Renderer::Render( RenderList* renderList )
 	{
 		if( t.IsClipped() ) 
 			continue;
-		_wireRasterizer->drawTriangle( _buffer, t );
+		//_wireRasterizer->drawTriangle( _buffer, t );
+		_flatRasterizer->drawTriangle( _buffer, t );
 	}
 }
 

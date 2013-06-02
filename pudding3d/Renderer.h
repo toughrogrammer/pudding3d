@@ -4,6 +4,7 @@
 
 class FrameBuffer;
 class WireframeTriangleRasterizer;
+class FlatTriangleRasterizer;
 class RenderList;
 class Viewport;
 class Renderer
@@ -20,6 +21,7 @@ public:
 private:
 	FrameBuffer* _buffer;
 	WireframeTriangleRasterizer* _wireRasterizer;
+	FlatTriangleRasterizer* _flatRasterizer;
 	
 };
 

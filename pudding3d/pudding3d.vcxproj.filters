@@ -75,6 +75,9 @@
     <Filter Include="소스 파일\Lib\Platform\Application\Mac">
       <UniqueIdentifier>{7911ec3e-938c-47c4-90fc-6c4c4debbb6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Lib\Renderer\Rasterizer\Flat">
+      <UniqueIdentifier>{24516cbf-8eca-46ce-9cb3-4a07b0c6c47d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="util.h">
@@ -152,6 +155,9 @@
     <ClInclude Include="Application.h">
       <Filter>소스 파일\Lib\Platform\Application\Win</Filter>
     </ClInclude>
+    <ClInclude Include="FlatTriangleRasterizer.h">
+      <Filter>소스 파일\Lib\Renderer\Rasterizer\Flat</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -222,6 +228,9 @@
     </ClCompile>
     <ClCompile Include="Application.cpp">
       <Filter>소스 파일\Lib\Platform\Application\Win</Filter>
+    </ClCompile>
+    <ClCompile Include="FlatTriangleRasterizer.cpp">
+      <Filter>소스 파일\Lib\Renderer\Rasterizer\Flat</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

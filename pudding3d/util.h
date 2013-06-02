@@ -7,6 +7,7 @@
 #include <math.h>
 
 #include "vector.h"
+#include "Vertex.h"
 
 #ifndef PI
 #define PI 3.1415926535897932384626f
@@ -36,6 +37,36 @@ inline int ftoi(float f)
 #endif
 
 	return i;
+}
+
+template < class T >
+inline void Swap( T& a, T& b )
+{
+	T tmp(a);
+	a = b;
+	b = tmp;
+}
+
+inline float Get2d_X( Vertex a, Vertex b, float y )
+{
+	float x1 = a.pos.x;
+	float y1 = a.pos.y;
+	float x2 = b.pos.x;
+	float y2 = b.pos.y;
+	float slope = ( y1 - y2 ) / ( x1 - x2 );
+
+	return ( ( y - y1 ) / slope + x1 );
+}
+
+inline float Get2d_Y( Vertex a, Vertex b, float x )
+{
+	float x1 = a.pos.x;
+	float y1 = a.pos.y;
+	float x2 = b.pos.x;
+	float y2 = b.pos.y;
+	float slope = ( y1 - y2 ) / ( x1 - x2 );
+
+	return ( slope * ( x - x1 ) + y1 );
 }
 
 inline float dot(Vector3 a, Vector3 b)

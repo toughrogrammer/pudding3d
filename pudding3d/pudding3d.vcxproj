@@ -80,6 +80,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Controller.h" />
+    <ClInclude Include="FlatTriangleRasterizer.h" />
     <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="KeyboardEvent.h" />
     <ClInclude Include="Matrix.h" />
@@ -107,6 +108,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="FlatTriangleRasterizer.cpp" />
     <ClCompile Include="FrameBuffer.cpp" />
     <ClCompile Include="KeyboardEvent.cpp" />
     <ClCompile Include="main.cpp" />
